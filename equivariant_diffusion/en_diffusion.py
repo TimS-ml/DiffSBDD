@@ -13,6 +13,10 @@ import utils
 class EnVariationalDiffusion(nn.Module):
     """
     The E(n) Diffusion Module.
+
+    Pay attention to some sub functions compare to EDM base, they are mostly the same
+
+    Added func for inpaint
     """
 
     def __init__(
@@ -337,6 +341,7 @@ class EnVariationalDiffusion(nn.Module):
         ligand, pocket = self.normalize(ligand, pocket)
 
         # Likelihood change due to normalization
+        # Here unlike default EDM, the size = ligand + pocket
         delta_log_px = self.delta_log_px(ligand['size'] + pocket['size'])
 
         # Sample a timestep t for each example in batch
@@ -907,7 +912,9 @@ class EnVariationalDiffusion(nn.Module):
 
     def subspace_dimensionality(self, input_size):
         """Compute the dimensionality on translation-invariant linear subspace
-        where distributions on x are defined."""
+        where distributions on x are defined.
+        Considering joint distribution, this changed to input_size not node_mask size
+        """
         return (input_size - 1) * self.n_dims
 
     @staticmethod

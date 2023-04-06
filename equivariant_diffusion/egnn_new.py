@@ -1,3 +1,9 @@
+'''
+Using the same EGNN as EDM and DiffSBDD
+
+EquivariantBlock makes coord (x) update easier
+'''
+
 from torch import nn
 import torch
 import math
